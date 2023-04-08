@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+
+import { NativeBaseProvider } from "native-base";
+import { ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from "./src/auth/cache";
+import { CLERK_PUBLIC_KEY } from "./src/keys";
+import AuthNavigator from "./src/auth/AuthNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+
+import { theme } from "./src/theme";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ClerkProvider publishableKey={CLERK_PUBLIC_KEY} tokenCache={tokenCache}>
+      <NativeBaseProvider theme={theme}>
+        <NavigationContainer>
+          <AuthNavigator />
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </ClerkProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
